@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, createWebHashHistory } from "vue-router";
 
 const routes = [
   {
@@ -21,10 +21,26 @@ const routes = [
     name: "order-list",
     component: () => import("../views/order-list/index.vue"),
   },
+  {
+    path: "/goods-list",
+    name: "goods-list",
+    component: () => import("../views/goods-list/index.vue"),
+  },
+  {
+    path: "/log-list",
+    name: "log-list",
+    component: () => import("../views/log-list/index.vue"),
+  },
+  {
+    path: "/phone-list",
+    name: "phone-list",
+    component: () => import("../views/phone-list/index.vue"),
+  },
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  // 强制使用hash模式，避免宝塔服务器路由问题
+  history: createWebHashHistory(),
   routes,
 });
 

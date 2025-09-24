@@ -12,6 +12,42 @@ export const getGoodsList = (params) => {
 };
 
 /**
+ * 更新商品数据库
+ * @param {Object} params - 请求参数对象
+ * @param {string} params.storeCode - 店铺代码
+ * @returns
+ */
+export const updateGoodsDB = (params) => {
+  return request.get("/goods/updateGoodsDB", {
+    params,
+  });
+};
+
+/**
+ * 更新商品信息
+ * @param {Object} params - 请求参数对象
+ * @param {string} params.linkId - 商品linkId
+ * @param {string} params.name - 商品名称（可选）
+ * @param {number} params.price - 商品价格（可选）
+ * @returns
+ */
+export const updateGoodsName = (params) => {
+  return request.post("/goods/updateGoodsName", params);
+};
+
+/**
+ * 删除商品
+ * @param {Object} params - 请求参数对象
+ * @param {string} params.linkId - 商品linkId
+ * @returns
+ */
+export const deleteGoods = (params) => {
+  return request.delete("/goods/deleteGoods", {
+    params,
+  });
+};
+
+/**
  * 获取套餐列表
  * @param {Object} params - 请求参数对象
  * @param {string} params.keyword - 搜索关键词
@@ -112,6 +148,16 @@ export const deleteUser = (params) => {
 };
 
 /**
+ * 切换用户状态
+ * @param {Object} params - 请求参数对象
+ * @param {string} params.token - 用户token
+ * @returns
+ */
+export const switchStatus = (params) => {
+  return request.post("/users/switchStatus", params);
+};
+
+/**
  * 获取卡密订单列表
  * @param {Object} params - 请求参数对象
  * @param {string|number} params.pageNum - 页码
@@ -189,4 +235,147 @@ export const queryCoupon = (params) => {
  */
 export const addCardOrder = (params) => {
   return request.post("/orders/addOrder", params);
+};
+
+/**
+ * 获取日志列表
+ * @param {Object} params - 请求参数对象
+ * @param {number} params.pageNum - 页码，从1开始，默认为1
+ * @param {number} params.pageSize - 每页数量，默认为50，最大100
+ * @param {string} params.logLevel - 日志级别过滤（DEBUG、INFO、WARNING、ERROR、CRITICAL）
+ * @param {string} params.logType - 日志类型过滤（SYSTEM、USER_OP、ORDER、VIP、API等）
+ * @param {string} params.moduleName - 模块名称过滤
+ * @param {string} params.startTime - 开始时间，格式：YYYY-MM-DD HH:MM:SS
+ * @param {string} params.endTime - 结束时间，格式：YYYY-MM-DD HH:MM:SS
+ * @param {string} params.keyword - 关键词搜索
+ * @returns
+ */
+export const getLogList = (params) => {
+  return request.get("/logs/getLogList", {
+    params,
+  });
+};
+
+/**
+ * 获取日志统计
+ * @param {Object} params - 请求参数对象
+ * @param {number} params.days - 统计天数，默认为7天，最大30天
+ * @returns
+ */
+export const getLogStatistics = (params) => {
+  return request.get("/logs/getStatistics", {
+    params,
+  });
+};
+
+/**
+ * 批量添加手机号
+ * @param {Object} params - 请求参数对象
+ * @param {Array} params.phones - 手机号数组
+ * @param {string} params.created_by - 创建者
+ * @returns
+ */
+export const batchAddPhone = (params) => {
+  return request.post("/phone/batchAdd", params);
+};
+
+/**
+ * 获取手机号列表
+ * @param {Object} params - 请求参数对象
+ * @param {number} params.page_num - 页码
+ * @param {number} params.page_size - 每页数量
+ * @param {string} params.keyword - 关键词
+ * @param {string} params.group_name - 分组名称
+ * @param {number} params.status - 状态
+ * @returns
+ */
+export const getPhoneList = (params) => {
+  return request.get("/phone/list", {
+    params,
+  });
+};
+
+/**
+ * 更新手机号记录
+ * @param {Object} params - 请求参数对象
+ * @param {number} params.phone_id - 手机号ID
+ * @param {string} params.phone - 手机号
+ * @param {string} params.name - 姓名
+ * @param {number} params.status - 状态
+ * @param {string} params.updated_by - 更新者
+ * @returns
+ */
+export const updatePhone = (params) => {
+  return request.post("/phone/update", params);
+};
+
+/**
+ * 删除手机号记录
+ * @param {Object} params - 请求参数对象
+ * @param {number} params.phone_id - 手机号ID
+ * @returns
+ */
+export const deletePhone = (params) => {
+  return request.post("/phone/delete", params);
+};
+
+/**
+ * 获取分组列表
+ * @returns
+ */
+export const getPhoneGroups = () => {
+  return request.get("/phone/groups");
+};
+
+/**
+ * 获取Token监控状态
+ * @returns
+ */
+export const getTokenMonitorStatus = () => {
+  return request.get("/token-monitor/status");
+};
+
+/**
+ * 启动Token监控
+ * @returns
+ */
+export const startTokenMonitor = () => {
+  return request.post("/token-monitor/start");
+};
+
+/**
+ * 停止Token监控
+ * @returns
+ */
+export const stopTokenMonitor = () => {
+  return request.post("/token-monitor/stop");
+};
+
+/**
+ * 获取过期用户列表
+ * @returns
+ */
+export const getExpiredUsers = () => {
+  return request.get("/token-monitor/expired-users");
+};
+
+/**
+ * HTTP轮询接口 - 替代WebSocket
+ * @param {Object} params - 请求参数对象
+ * @param {number} params.last_version - 上次接收的消息版本号
+ * @param {string} params.types - 消息类型过滤，默认'all'
+ * @returns
+ */
+export const pollTokenMonitor = (params) => {
+  return request.get("/token-monitor/poll", {
+    params,
+  });
+};
+
+/**
+ * 获取轮询配置
+ * @returns
+ */
+export const getPollConfig = () => {
+  return request.get("/token-monitor/poll/config");
 };

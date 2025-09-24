@@ -73,6 +73,18 @@ const menuItems = [
     key: "/order-list",
     name: "卡密订单管理",
   },
+  {
+    key: "/goods-list",
+    name: "商品管理",
+  },
+  {
+    key: "/log-list",
+    name: "日志管理",
+  },
+  {
+    key: "/phone-list",
+    name: "手机号管理",
+  },
 ];
 
 const handleMenuClick = ({ key }) => {

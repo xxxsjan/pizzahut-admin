@@ -100,59 +100,59 @@ export default [
     response: () => {
       return {
         code: 0,
-        data: {
-          code: 0,
-          count: 3,
-          data: [
-            {
-              balance: 0,
-              coupons:
-                '[{"activity": "周二薯格/烤翅（2选1）", "couponCode": "Q-75760049030504504798-PHDIS20250400075-31795", "activityCode": "HD7NJ5LR2G"}, {"activity": "工作日汉堡面饭3件套", "couponCode": "Q-75760049030504504798-PHDIS20250400093-31803", "activityCode": "HIXVOS9KJ4"}, {"activity": "必胜白银专享 | 66折指定比萨券", "couponCode": "S-75760049030504504798-PHDIS20241200002-1746523476133", "activityCode": "HBL7XI21PP"}, {"activity": "必胜白银专享 | 39元指定牛排1份（工作日晚餐可享）", "couponCode": "S-75760049030504504798-PHDIS20241200003-1746523454853", "activityCode": "HJ48ZQJ5XS"}]',
-              createTime: "Thu, 24 Apr 2025 15:54:57 GMT",
-              id: 4,
-              lastUseTime: null,
-              online: 1,
-              phone: "13055968847",
-              token:
-                "442b0f9072924cd4_196a3af63c8_196a3af63c8_WKi0Mvzykq3vL1YDlO7Rgw",
-              updateTime: "Tue, 20 May 2025 00:13:38 GMT",
-              vgold: 39690,
-              vip: 0,
-            },
-            {
-              balance: 63,
-              coupons:
-                '[{"activity": "周二薯格/烤翅（2选1）", "couponCode": "Q-46668998260898661730-PHDIS20250400075-31795", "activityCode": "HD7NJ5LR2G"}, {"activity": "工作日汉堡面饭3件套", "couponCode": "Q-46668998260898661730-PHDIS20250400093-31803", "activityCode": "HIXVOS9KJ4"}, {"activity": "必胜客100元券", "couponCode": "PS549Z59AJ8B", "activityCode": "H7IPIEXYX7"}, {"activity": "必胜客100元券", "couponCode": "PS4Z5K3A8832", "activityCode": "H7IPIEXYX7"}, {"activity": "GES评价赠券 乌梅山楂果味暴打柠檬 买一送一", "couponCode": "PS4YKC2WJ7L5", "activityCode": "HK9I8OW64C"}, {"activity": "GES评价赠券 乌梅山楂果味暴打柠檬 买一送一", "couponCode": "PS8S66ASY94B", "activityCode": "HK9I8OW64C"}, {"activity": "GES评价赠券 乌梅山楂果味暴打柠檬 买一送一", "couponCode": "PS44HK368C66", "activityCode": "HK9I8OW64C"}, {"activity": "GES评价赠券 乌梅山楂果味暴打柠檬 买一送一", "couponCode": "PS8UM34K9974", "activityCode": "HK9I8OW64C"}, {"activity": "GES评价赠券 乌梅山楂果味暴打柠檬 买一送一", "couponCode": "PSYGH324T4N5", "activityCode": "HK9I8OW64C"}, {"activity": "必胜白金专享 | 单品价消费全单85折券1张", "couponCode": "S-46668998260898661730-PSZ230038-1743875119317", "activityCode": "H2308080038"}]',
-              createTime: "Thu, 24 Apr 2025 15:57:27 GMT",
-              id: 7,
-              lastUseTime: null,
-              online: 1,
-              phone: "13055968847",
-              token:
-                "250419249875130e_196c77f5d87_196c77f5d87_.GtEkxCF4c02sOOEODnvKg",
-              updateTime: "Tue, 20 May 2025 00:13:39 GMT",
-              vgold: 193142,
-              vip: 1,
-            },
-            {
-              balance: 0,
-              coupons: "",
-              createTime: "Tue, 13 May 2025 10:37:59 GMT",
-              id: 11,
-              lastUseTime: null,
-              online: 0,
-              phone: null,
-              token:
-                "e65a9fcc28b0b1e9_196c438c0f2_196c438c0f2_PtfNlHbW232D4WTDXUEmqA",
-              updateTime: "Wed, 14 May 2025 16:10:53 GMT",
-              vgold: 0,
-              vip: 0,
-            },
-          ],
-          errorCode: "0",
-          pageNum: "1",
-          pageSize: "10",
-        },
+        count: 3,
+        data: [
+          {
+            balance: 0,
+            coupons:
+              '[{"activity": "周二薯格/烤翅（2选1）", "couponCode": "Q-75760049030504504798-PHDIS20250400075-31795", "activityCode": "HD7NJ5LR2G"}, {"activity": "工作日汉堡面饭3件套", "couponCode": "Q-75760049030504504798-PHDIS20250400093-31803", "activityCode": "HIXVOS9KJ4"}, {"activity": "必胜白银专享 | 66折指定比萨券", "couponCode": "S-75760049030504504798-PHDIS20241200002-1746523476133", "activityCode": "HBL7XI21PP"}, {"activity": "必胜白银专享 | 39元指定牛排1份（工作日晚餐可享）", "couponCode": "S-75760049030504504798-PHDIS20241200003-1746523454853", "activityCode": "HJ48ZQJ5XS"}]',
+            createTime: "Thu, 24 Apr 2025 15:54:57 GMT",
+            id: 4,
+            lastUseTime: null,
+            online: 1,
+            phone: "13055968847",
+            token:
+              "442b0f9072924cd4_196a3af63c8_196a3af63c8_WKi0Mvzykq3vL1YDlO7Rgw",
+            updateTime: "Tue, 20 May 2025 00:13:38 GMT",
+            vgold: 39690,
+            vip: 0,
+            status: 1,
+          },
+          {
+            balance: 63,
+            coupons:
+              '[{"activity": "周二薯格/烤翅（2选1）", "couponCode": "Q-46668998260898661730-PHDIS20250400075-31795", "activityCode": "HD7NJ5LR2G"}, {"activity": "工作日汉堡面饭3件套", "couponCode": "Q-46668998260898661730-PHDIS20250400093-31803", "activityCode": "HIXVOS9KJ4"}, {"activity": "必胜客100元券", "couponCode": "PS549Z59AJ8B", "activityCode": "H7IPIEXYX7"}, {"activity": "必胜客100元券", "couponCode": "PS4Z5K3A8832", "activityCode": "H7IPIEXYX7"}, {"activity": "GES评价赠券 乌梅山楂果味暴打柠檬 买一送一", "couponCode": "PS4YKC2WJ7L5", "activityCode": "HK9I8OW64C"}, {"activity": "GES评价赠券 乌梅山楂果味暴打柠檬 买一送一", "couponCode": "PS8S66ASY94B", "activityCode": "HK9I8OW64C"}, {"activity": "GES评价赠券 乌梅山楂果味暴打柠檬 买一送一", "couponCode": "PS44HK368C66", "activityCode": "HK9I8OW64C"}, {"activity": "GES评价赠券 乌梅山楂果味暴打柠檬 买一送一", "couponCode": "PS8UM34K9974", "activityCode": "HK9I8OW64C"}, {"activity": "GES评价赠券 乌梅山楂果味暴打柠檬 买一送一", "couponCode": "PSYGH324T4N5", "activityCode": "HK9I8OW64C"}, {"activity": "必胜白金专享 | 单品价消费全单85折券1张", "couponCode": "S-46668998260898661730-PSZ230038-1743875119317", "activityCode": "H2308080038"}]',
+            createTime: "Thu, 24 Apr 2025 15:57:27 GMT",
+            id: 7,
+            lastUseTime: null,
+            online: 1,
+            phone: "13055968847",
+            token:
+              "250419249875130e_196c77f5d87_196c77f5d87_.GtEkxCF4c02sOOEODnvKg",
+            updateTime: "Tue, 20 May 2025 00:13:39 GMT",
+            vgold: 193142,
+            vip: 1,
+            status: 1,
+          },
+          {
+            balance: 0,
+            coupons: "",
+            createTime: "Tue, 13 May 2025 10:37:59 GMT",
+            id: 11,
+            lastUseTime: null,
+            online: 0,
+            phone: null,
+            token:
+              "e65a9fcc28b0b1e9_196c438c0f2_196c438c0f2_PtfNlHbW232D4WTDXUEmqA",
+            updateTime: "Wed, 14 May 2025 16:10:53 GMT",
+            vgold: 0,
+            vip: 0,
+            status: 0,
+          },
+        ],
+        errorCode: "0",
+        pageNum: "1",
+        pageSize: "10",
       };
     },
   },
@@ -232,6 +232,143 @@ export default [
         ],
         errorCode: "0",
         msg: "success",
+        pageNum: "1",
+        pageSize: "10",
+      };
+    },
+  },
+  {
+    url: "/api/users/addUser",
+    method: "post",
+    response: () => {
+      return {
+        code: 0,
+        message: "用户添加成功",
+        data: null,
+      };
+    },
+  },
+  {
+    url: "/api/users/deleteUser",
+    method: "delete",
+    response: () => {
+      return {
+        code: 0,
+        message: "用户删除成功",
+        data: null,
+      };
+    },
+  },
+  {
+    url: "/api/goods/getGoodsList",
+    method: "get",
+    response: () => {
+      return {
+        code: 0,
+        count: 15,
+        data: [
+          {
+            id: 1,
+            name: "金枕榴莲多多披萨",
+            description: "新鲜榴莲果肉，香浓芝士，酥脆饼底，榴莲爱好者的最爱",
+            price: 89.00,
+            category: "披萨区",
+            image: "https://via.placeholder.com/100x100?text=榴莲披萨",
+            status: 1,
+            createTime: "2025-01-15 10:30:00"
+          },
+          {
+            id: 2,
+            name: "腊肠多多披萨",
+            description: "优质腊肠，浓郁芝士，经典口味，老少皆宜",
+            price: 79.00,
+            category: "披萨区",
+            image: "https://via.placeholder.com/100x100?text=腊肠披萨",
+            status: 1,
+            createTime: "2025-01-15 10:25:00"
+          },
+          {
+            id: 3,
+            name: "经典意式肉酱面",
+            description: "传统意式肉酱，Q弹面条，经典搭配",
+            price: 45.00,
+            category: "意面区",
+            image: "https://via.placeholder.com/100x100?text=肉酱面",
+            status: 1,
+            createTime: "2025-01-15 10:20:00"
+          },
+          {
+            id: 4,
+            name: "必胜小食盒",
+            description: "多种小食组合，丰富口感，完美搭配",
+            price: 35.00,
+            category: "小食区",
+            image: "https://via.placeholder.com/100x100?text=小食盒",
+            status: 1,
+            createTime: "2025-01-15 10:15:00"
+          },
+          {
+            id: 5,
+            name: "小吊梨汤",
+            description: "清甜梨汤，润燥解腻，天然健康",
+            price: 18.00,
+            category: "饮料区",
+            image: "https://via.placeholder.com/100x100?text=梨汤",
+            status: 1,
+            createTime: "2025-01-15 10:10:00"
+          },
+          {
+            id: 6,
+            name: "精研抹茶雪域",
+            description: "浓郁抹茶，绵密冰淇淋，清香甜蜜",
+            price: 32.00,
+            category: "甜品区",
+            image: "https://via.placeholder.com/100x100?text=抹茶雪域",
+            status: 1,
+            createTime: "2025-01-15 10:05:00"
+          },
+          {
+            id: 7,
+            name: "香辣鸡腿堡",
+            description: "酥脆鸡腿，香辣调味，新鲜蔬菜搭配",
+            price: 42.00,
+            category: "汉堡区",
+            image: "https://via.placeholder.com/100x100?text=鸡腿堡",
+            status: 0,
+            createTime: "2025-01-15 10:00:00"
+          },
+          {
+            id: 8,
+            name: "黑椒牛排",
+            description: "优质牛排，黑椒调味，嫩滑多汁",
+            price: 128.00,
+            category: "牛排区",
+            image: "https://via.placeholder.com/100x100?text=黑椒牛排",
+            status: 1,
+            createTime: "2025-01-15 09:55:00"
+          },
+          {
+            id: 9,
+            name: "海鲜焗饭",
+            description: "新鲜海鲜，香浓芝士，营养丰富",
+            price: 58.00,
+            category: "饭区",
+            image: "https://via.placeholder.com/100x100?text=海鲜焗饭",
+            status: 1,
+            createTime: "2025-01-15 09:50:00"
+          },
+          {
+            id: 10,
+            name: "甘梅红薯条",
+            description: "香甜红薯，甘梅调味，健康美味",
+            price: 25.00,
+            category: "小食区",
+            image: "https://via.placeholder.com/100x100?text=红薯条",
+            status: 0,
+            createTime: "2025-01-15 09:45:00"
+          }
+        ],
+        errorCode: "0",
         pageNum: "1",
         pageSize: "10",
       };
