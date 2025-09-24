@@ -1,0 +1,28 @@
+{
+  "name": "mall-admin",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5174",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.6",
+    "ant-design-vue": "^4.2.6",
+    "axios": "^1.7.7",
+    "dayjs": "^1.11.13",
+    "less": "^4.2.0",
+    "tailwindcss": "^4.1.6",
+    "vue": "^3.4.37",
+    "vue-router": "^4.4.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.2",
+    "unplugin-auto-import": "^19.1.2",
+    "unplugin-vue-components": "^28.5.0",
+    "vite": "^5.4.1",
+    "vite-plugin-mock": "^3.0.2"
+  }
+}
