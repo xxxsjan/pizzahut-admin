@@ -6,9 +6,36 @@ import {
   updateEnabledOptions,
   getEnabledOptions,
 } from "@/api";
+const cleanGroupName = (name) => {
+  return (name || "").replace(/\d+/g, "");
+};
+const buildSpecOptions = (specs, enabledOptions) => {
+  return specs.map((m) => ({
+    groupName: m.specName,
+    options: (m.specDetails || []).map((mp) => ({
+      value: mp.specLabel,
+      label: mp.specLabel,
+    })),
+    value: enabledOptions[cleanGroupName(m.specName)] || [],
+  }));
+};
 
+const buildDosingOptions = (dosingGroups, enabledOptions) => {
+  return dosingGroups.map((m) => ({
+    groupName: m.keyDosingGroupName,
+    options: (m.productDosingDetails || []).map((mp) => ({
+      value: mp.keyName,
+      label: mp.keyName,
+    })),
+    value: enabledOptions[cleanGroupName(m.keyDosingGroupName)] || [],
+  }));
+};
 export const useEditOptions = () => {
-  const editOptionData = ref({});
+  const editOptionData = ref({
+    optionsList: [],
+    productGroupName: '',
+    linkId: ''
+  });
   const editOptionsModalVisible = ref(false);
 
   const handleEditOptions = async (record) => {
@@ -26,9 +53,7 @@ export const useEditOptions = () => {
       );
       const isMenu = res.data.root?.menuType === "mealItems";
       const noData = !res.data.root || (!isSpec && !isDosing);
-      console.log("isSpec: ", isSpec);
-      console.log("isDosing: ", isDosing);
-      console.log("noData: ", noData);
+
       if (noData || isMenu) {
         message.error("该商品不支持自定义添加");
 
@@ -42,31 +67,15 @@ export const useEditOptions = () => {
       let optionsList = [];
 
       if (isSpec) {
-        optionsList = res.data.root.groupSpec.map((m) => {
-          const keyName = (m.specName || "").replace(/\d+/g, "");
-
-          return {
-            groupName: m.specName,
-            options: (m.specDetails || []).map((mp) => ({
-              value: mp.specLabel,
-              label: mp.specLabel,
-            })),
-            value: enabled_options[keyName] || [],
-          };
-        });
+        optionsList = buildSpecOptions(
+          res.data.root.groupSpec,
+          enabled_options
+        );
       } else if (isDosing) {
-        optionsList = res.data.root.tdProductDosingGroupInfos.map((m) => {
-          const keyName = (m.keyDosingGroupName || "").replace(/\d+/g, "");
-
-          return {
-            groupName: m.keyDosingGroupName,
-            options: (m.productDosingDetails || []).map((mp) => ({
-              value: mp.keyName,
-              label: mp.keyName,
-            })),
-            value: enabled_options[keyName] || [],
-          };
-        });
+        optionsList = buildDosingOptions(
+          res.data.root.tdProductDosingGroupInfos,
+          enabled_options
+        );
       }
       console.log(optionsList);
       editOptionData.value = {
@@ -99,7 +108,7 @@ export const useEditOptions = () => {
       }, {}),
     };
     console.log("params: ", params);
-    debugger
+    debugger;
     try {
       const res = await updateEnabledOptions(params).catch((err) => {
         console.log("err: ", err);
