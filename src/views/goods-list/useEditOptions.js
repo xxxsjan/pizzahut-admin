@@ -81,7 +81,6 @@ export const useEditOptions = () => {
     }
   };
   const handleEditOptionsSubmit = async () => {
-    // updateEnabledOptions
     //   {
     //   "linkId": "500005401",
     //   "enabled_options": {
@@ -99,8 +98,8 @@ export const useEditOptions = () => {
         return pre;
       }, {}),
     };
-    console.log(editOptionData);
     console.log("params: ", params);
+    debugger
     try {
       const res = await updateEnabledOptions(params).catch((err) => {
         console.log("err: ", err);
