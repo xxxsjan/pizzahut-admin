@@ -31,7 +31,8 @@ export default defineConfig({
       // },
       "/api": {
         // target: "http://47.119.138.66:15000",
-        target: "http://127.0.0.1:5000",
+        target: "http://xymdl.natapp1.cc",
+        // target: "http://127.0.0.1:5000",
         changeOrigin: true,
         // rewrite: (path) => path.replace(/^\/api/, ""),
       },

@@ -379,3 +379,26 @@ export const pollTokenMonitor = (params) => {
 export const getPollConfig = () => {
   return request.get("/token-monitor/poll/config");
 };
+
+/**
+ * 获取商品详情
+ * @param {Object} data - 请求参数对象
+ * @param {string} data.token
+ * @param {string} data.thirdId  生成随机字符串作为 thirdId
+ * @param {string} data.storeCode   当前订单的店铺代码
+ * @param {string} data.linkId  商品的链接ID，用于获取具体商品详情
+ * @returns
+ */
+export const getProductDetail = (data) => {
+  return request.post("/scan/product/detail", data);
+};
+
+export const updateEnabledOptions = (data) => {
+  return request.post("/goods/updateEnabledOptions", data);
+};
+
+export const getEnabledOptions = (params) => {
+  return request.get("/goods/getEnabledOptions", {
+    params,
+  });
+};

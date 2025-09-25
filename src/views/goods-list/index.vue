@@ -24,7 +24,11 @@
         <a-space>
           <a-button type="primary" html-type="submit">搜索</a-button>
           <a-button @click="handleReset">重置</a-button>
-          <a-button type="primary" @click="handleUpdateGoods" :loading="updateLoading">
+          <a-button
+            type="primary"
+            @click="handleUpdateGoods"
+            :loading="updateLoading"
+          >
             更新商品数据
           </a-button>
         </a-space>
@@ -47,33 +51,39 @@
       >
         <template #image="{ record }">
           <div v-if="record.img" class="flex justify-center">
-            <img 
-              :src="record.img" 
+            <img
+              :src="record.img"
               :alt="record.name"
               class="w-12 h-12 object-cover rounded"
             />
           </div>
           <div v-else class="text-gray-400 text-center">暂无图片</div>
         </template>
-        
+
         <template #startPrice="{ record }">
-          <span class="text-blue-500 font-medium">￥{{ record.startPrice || 0 }}</span>
+          <span class="text-blue-500 font-medium"
+            >￥{{ record.startPrice || 0 }}</span
+          >
         </template>
-        
+
         <template #price="{ record }">
-          <span class="text-red-500 font-medium">￥{{ record.price ? (record.price / 100).toFixed(2) : '0.00' }}</span>
+          <span class="text-red-500 font-medium"
+            >￥{{
+              record.price ? (record.price / 100).toFixed(2) : "0.00"
+            }}</span
+          >
         </template>
-        
+
         <template #status="{ record }">
           <a-tag :color="record.status === 1 ? 'red' : 'green'">
-            {{ record.status === 1 ? '下架' : '上架' }}
+            {{ record.status === 1 ? "下架" : "上架" }}
           </a-tag>
         </template>
-        
+
         <template #updateTime="{ record }">
           <span>{{ formatTime(record.updateTime) }}</span>
         </template>
-        
+
         <template #createTime="{ record }">
           <span>{{ formatTime(record.createTime) }}</span>
         </template>
@@ -83,14 +93,26 @@
             <a-button type="link" size="small" @click="handleEdit(record)">
               编辑
             </a-button>
-            <a-button type="link" size="small" danger @click="handleDelete(record)">
+            <a-button
+              type="link"
+              size="small"
+              danger
+              @click="handleDelete(record)"
+            >
               删除
+            </a-button>
+            <a-button
+              type="link"
+              size="small"
+              @click="handleEditOptions(record)"
+            >
+              编辑选项
             </a-button>
           </a-space>
         </template>
       </a-table>
-      
-      <div style="margin-top: 10px;display: flex;justify-content: flex-end;">
+
+      <div style="margin-top: 10px; display: flex; justify-content: flex-end">
         <a-pagination
           :current="pagination.current"
           :pageSize="pagination.pageSize"
@@ -103,7 +125,7 @@
         />
       </div>
     </a-card>
-    
+
     <!-- 编辑商品模态框 -->
     <a-modal
       v-model:open="editModalVisible"
@@ -135,25 +157,77 @@
         </a-form-item>
       </a-form>
     </a-modal>
+
+    <a-modal
+      v-model:open="editOptionsModalVisible"
+      title="编辑选项"
+      @ok="handleEditOptionsSubmit"
+      @cancel="editOptionsModalVisible = false"
+      okText="保存"
+      cancelText="取消"
+    >
+      <div
+        v-for="(item, index) in editOptionData.optionsList || []"
+        :key="index"
+        class="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-100 hover:shadow-sm transition-shadow"
+      >
+        <div class=" ">
+          <div
+            class="text-lg font-medium text-gray-800 mb-3 pb-2 border-b border-gray-200"
+          >
+            {{ item.groupName }}
+          </div>
+          <a-checkbox-group v-model:value="item.value" class="w-full">
+            <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div
+                v-for="(td, tdIdx) in item.options"
+                :key="tdIdx"
+                class="p-2 rounded hover:bg-gray-100 transition-colors"
+              >
+                <a-checkbox
+                  :value="td.value"
+                  class="text-gray-700 hover:text-primary transition-colors"
+                >
+                  {{ td.label }}
+                </a-checkbox>
+              </div>
+            </div>
+          </a-checkbox-group>
+        </div>
+      </div>
+    </a-modal>
   </div>
 </template>
 
 <script setup>
-import { getGoodsList, updateGoodsDB, updateGoodsName, deleteGoods } from "@/api";
+import {
+  getGoodsList,
+  updateGoodsDB,
+  updateGoodsName,
+  deleteGoods,
+} from "@/api";
 import { message, Modal } from "ant-design-vue";
 import { reactive, ref, onMounted } from "vue";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import { useEditOptions } from "./useEditOptions";
 
 // 扩展 dayjs UTC 插件
 dayjs.extend(utc);
 
 // 时间格式化函数
 const formatTime = (time) => {
-  if (!time) return '-';
+  if (!time) return "-";
   // 使用UTC模式，不进行时区转换，显示GMT原始时间
-  return dayjs.utc(time).format('YYYY-MM-DD HH:mm:ss');
+  return dayjs.utc(time).format("YYYY-MM-DD HH:mm:ss");
 };
+
+const {
+  editOptionData,
+  handleEditOptions,
+  handleEditOptionsSubmit,
+  editOptionsModalVisible,
+} = useEditOptions();
 
 // 表单状态
 const formState = reactive({
@@ -168,6 +242,7 @@ const updateLoading = ref(false); // 更新商品数据的loading状态
 
 // 编辑商品相关状态
 const editModalVisible = ref(false);
+
 const editForm = reactive({
   linkId: "",
   name: "",
@@ -235,7 +310,7 @@ const columns = [
   {
     title: "操作",
     dataIndex: "action",
-    width: 150,
+    width: 220,
     slots: { customRender: "action" },
   },
 ];
@@ -278,7 +353,7 @@ const handleUpdateGoods = async () => {
     message.warning("请输入店铺代码");
     return;
   }
-  
+
   updateLoading.value = true;
   try {
     await updateGoodsDB({ storeCode: formState.storeCode });
@@ -309,12 +384,16 @@ const handleEditSubmit = async () => {
     message.warning("请输入商品名称");
     return;
   }
-  
-  if (editForm.price === null || editForm.price === undefined || editForm.price < 0) {
+
+  if (
+    editForm.price === null ||
+    editForm.price === undefined ||
+    editForm.price < 0
+  ) {
     message.warning("请输入有效的商品价格");
     return;
   }
-  
+
   try {
     await updateGoodsName({
       linkId: editForm.linkId,
@@ -384,4 +463,4 @@ onMounted(() => {
 .goods-list-page {
   padding: 0;
 }
-</style> 
+</style>
