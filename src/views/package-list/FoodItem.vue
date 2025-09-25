@@ -40,6 +40,14 @@
       <div class="flex gap-2 items-center text-sm">
         优惠券名字：{{ data.coupon || "无" }}
       </div>
+      <div class="flex gap-2 items-center text-sm">
+        白名单：{{
+          {
+            0: "关闭",
+            1: "启用",
+          }[data.status]
+        }}
+      </div>
     </div>
 
     <div v-else>
@@ -73,6 +81,24 @@
           placeholder="输入优惠券名字"
         ></a-input>
       </div>
+      <div class="flex gap-2 items-center w-full px-2 mb-2">
+        <div class="font-medium">白名单：</div>
+        <a-select
+          v-model:value="status"
+          show-search
+          show-arrow
+          placeholder="请选择"
+          class="flex-1"
+          :default-active-first-option="false"
+          :show-arrow="false"
+          :filter-option="false"
+          :not-found-content="null"
+          :options="[
+            { value: 0, label: '关闭' },
+            { value: 1, label: '启用' },
+          ]"
+        ></a-select>
+      </div>
     </div>
   </div>
 </template>
@@ -92,7 +118,7 @@ const props = defineProps({
   },
 });
 const emits = defineEmits(["delete"]);
-const { vip, coupon } = toRefs(props.data);
+const { vip, coupon, status } = toRefs(props.data);
 const imgUrl = ref(props.data.img);
 
 getGoodsList({

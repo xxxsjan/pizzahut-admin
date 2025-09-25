@@ -178,11 +178,11 @@
             {{ item.groupName }}
           </div>
           <a-checkbox-group v-model:value="item.value" class="w-full">
-            <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-1">
               <div
                 v-for="(td, tdIdx) in item.options"
                 :key="tdIdx"
-                class="p-2 rounded hover:bg-gray-100 transition-colors"
+                class="p-1 rounded hover:bg-gray-100 transition-colors"
               >
                 <a-checkbox
                   :value="td.value"
@@ -211,6 +211,7 @@ import { reactive, ref, onMounted } from "vue";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { useEditOptions } from "./useEditOptions";
+import { columns } from "./config";
 
 // 扩展 dayjs UTC 插件
 dayjs.extend(utc);
@@ -257,63 +258,6 @@ const pagination = reactive({
   showQuickJumper: true,
   pageSizeOptions: ["10", "20", "50", "100"],
 });
-
-// 列配置
-const columns = [
-  {
-    title: "商品图片",
-    dataIndex: "img",
-    width: 100,
-    slots: { customRender: "image" },
-  },
-  {
-    title: "商品名称",
-    dataIndex: "name",
-    minWidth: 200,
-  },
-  {
-    title: "商品id",
-    dataIndex: "linkId",
-    minWidth: 100,
-    ellipsis: true,
-  },
-  {
-    title: "商品价格",
-    dataIndex: "startPrice",
-    width: 120,
-    slots: { customRender: "startPrice" },
-  },
-  {
-    title: "自定义价格",
-    dataIndex: "price",
-    width: 120,
-    slots: { customRender: "price" },
-  },
-  {
-    title: "状态",
-    dataIndex: "status",
-    width: 100,
-    slots: { customRender: "status" },
-  },
-  // {
-  //   title: "创建时间",
-  //   dataIndex: "createTime",
-  //   width: 180,
-  //   slots: { customRender: "createTime" },
-  // },
-  // {
-  //   title: "更新时间",
-  //   dataIndex: "updateTime",
-  //   width: 180,
-  //   slots: { customRender: "updateTime" },
-  // },
-  {
-    title: "操作",
-    dataIndex: "action",
-    width: 220,
-    slots: { customRender: "action" },
-  },
-];
 
 // 搜索逻辑
 const handleSearch = async (payload = {}) => {

@@ -133,6 +133,7 @@ const handleOk = async () => {
               name: it.name,
               vip: it.vip,
               coupon: it.coupon,
+              status: it.status,
             };
           }),
         };

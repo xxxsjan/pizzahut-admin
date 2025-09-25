@@ -93,6 +93,12 @@ const currentPackage = ref({
 });
 function setCurrentPackage(data) {
   const dataCopy = JSON.parse(JSON.stringify(data));
+  dataCopy.packageDetail.group.forEach((item) => {
+    item.productList.forEach((product) => {
+      product.status = product.status || 0;
+    })
+  })
+  console.log('dataCopy: ', dataCopy);
   currentPackage.value.packageDetail = dataCopy.packageDetail;
   currentPackage.value.packageName = dataCopy.packageName;
   currentPackage.value.id = dataCopy.id;

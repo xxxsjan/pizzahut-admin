@@ -12,10 +12,6 @@ export const useEditOptions = () => {
   const editOptionsModalVisible = ref(false);
 
   const handleEditOptions = async (record) => {
-    const res2 = await getEnabledOptions({
-      linkId: record.linkId,
-    });
-    const enabled_options = res2.data.enabled_options || {};
     const res = await getProductDetail({
       token: "",
       thirdId: generateRandomString(),
@@ -24,16 +20,26 @@ export const useEditOptions = () => {
       filter_mode: false,
     });
     if (res.code === 0) {
-      if (!res.data.root || res.data.root.menuType === "mealItems") {
-        message.error("该商品不支持自定义添加");
-        return;
-      }
-
-      let optionsList = [];
-      const isSpec = res.data.root.groupSpec?.length;
-      const isDosing = res.data.root.tdProductDosingGroupInfos?.length;
+      const isSpec = Boolean(res.data.root?.groupSpec?.length);
+      const isDosing = Boolean(
+        res.data.root?.tdProductDosingGroupInfos?.length
+      );
+      const isMenu = res.data.root?.menuType === "mealItems";
+      const noData = !res.data.root || (!isSpec && !isDosing);
       console.log("isSpec: ", isSpec);
       console.log("isDosing: ", isDosing);
+      console.log("noData: ", noData);
+      if (noData || isMenu) {
+        message.error("该商品不支持自定义添加");
+
+        return;
+      }
+      const res2 = await getEnabledOptions({
+        linkId: record.linkId,
+      });
+
+      const enabled_options = res2.data.enabled_options || {};
+      let optionsList = [];
 
       if (isSpec) {
         optionsList = res.data.root.groupSpec.map((m) => {
