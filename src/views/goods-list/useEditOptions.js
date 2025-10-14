@@ -9,15 +9,38 @@ import {
 const cleanGroupName = (name) => {
   return (name || "").replace(/\d+/g, "");
 };
-const buildSpecOptions = (specs, enabledOptions) => {
-  return specs.map((m) => ({
-    groupName: m.specName,
-    options: (m.specDetails || []).map((mp) => ({
-      value: mp.specLabel,
-      label: mp.specLabel,
+const buildSpecOptions = (specs, enabledOptions, menus) => {
+  const allLinkIds = specs[0].specDetails
+    .map((m) => m.linkIds)
+    .flatMap((f) => f);
+  // const alltdProductDosingGroupInfos = allLinkIds
+  //   .map((m) => menus[m])
+  //   .map((m) => m.tdProductDosingGroupInfos)
+  //   .flatMap((f) => f);
+  const firsttdProductDosingGroupInfos = allLinkIds
+    .map((m) => menus[m])
+    .map((m) => m.tdProductDosingGroupInfos)[0];
+
+  const res = [
+    ...specs.map((m) => ({
+      groupName: m.specName,
+      options: (m.specDetails || []).map((mp) => ({
+        value: mp.specLabel,
+        label: mp.specLabel,
+      })),
+      value: enabledOptions[cleanGroupName(m.specName)] || [],
     })),
-    value: enabledOptions[cleanGroupName(m.specName)] || [],
-  }));
+    ...firsttdProductDosingGroupInfos.map((m) => ({
+      groupName: m.keyDosingGroupName,
+      options: (m.productDosingDetails || []).map((mp) => ({
+        value: mp.keyName,
+        label: mp.keyName,
+      })),
+      value: enabledOptions[cleanGroupName(m.keyDosingGroupName)] || [],
+    })),
+  ];
+
+  return res;
 };
 
 const buildDosingOptions = (dosingGroups, enabledOptions) => {
@@ -33,8 +56,8 @@ const buildDosingOptions = (dosingGroups, enabledOptions) => {
 export const useEditOptions = () => {
   const editOptionData = ref({
     optionsList: [],
-    productGroupName: '',
-    linkId: ''
+    productGroupName: "",
+    linkId: "",
   });
   const editOptionsModalVisible = ref(false);
 
@@ -67,10 +90,13 @@ export const useEditOptions = () => {
       let optionsList = [];
 
       if (isSpec) {
+        console.log("res.data.root.groupSpec: ", res.data.root.groupSpec);
         optionsList = buildSpecOptions(
           res.data.root.groupSpec,
-          enabled_options
+          enabled_options,
+          res.data.menus
         );
+        console.log("optionsList: ", optionsList);
       } else if (isDosing) {
         optionsList = buildDosingOptions(
           res.data.root.tdProductDosingGroupInfos,
