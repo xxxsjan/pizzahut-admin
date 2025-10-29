@@ -1,4 +1,6 @@
 import request from "@/utils/request";
+import { generateRandomString } from "@/utils";
+
 /**
  * 关键词查询数据库商品
  * @param {Object} params - 请求参数对象
@@ -64,13 +66,14 @@ export const getPackageList = (params) => {
 
 /**
  * 添加套餐
- * @param {Object} params - 请求参数对象
- * @param {Object} params.packageDetail - 套餐详情对象
- * @param {string} params.packageName - 套餐名称
+ * @param {Object} data - 请求参数对象
+ * @param {Object} data.packageDetail - 套餐详情对象
+ * @param {string} data.packageName - 套餐名称
+ * @param {string} data.goodsConfigs - 商品配置
  * @returns
  */
-export const addPackage = (params) => {
-  return request.post("/package/addPackage", params);
+export const addPackage = (data) => {
+  return request.post("/package/addPackage", data);
 };
 /**
  * 更新套餐
@@ -390,7 +393,13 @@ export const getPollConfig = () => {
  * @returns
  */
 export const getProductDetail = (data) => {
-  return request.post("/scan/product/detail", data);
+  return request.post("/scan/product/detail", {
+    token: "",
+    thirdId: generateRandomString(),
+    storeCode: "WHN833",
+    filter_mode: false,
+    ...data,
+  });
 };
 
 export const updateEnabledOptions = (data) => {

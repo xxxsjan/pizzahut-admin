@@ -55,6 +55,7 @@
       @confirm="handleSearch"
       :current-package="currentPackage"
       :type="modalType"
+      @updateConfig="handleUpdateConfig"
     />
     <ModalDetail
       v-if="detailOpen"
@@ -90,19 +91,21 @@ const currentPackage = ref({
     group: [],
   },
   price: "",
+  currentPackage: {},
 });
 function setCurrentPackage(data) {
   const dataCopy = JSON.parse(JSON.stringify(data));
   dataCopy.packageDetail.group.forEach((item) => {
     item.productList.forEach((product) => {
       product.status = product.status || 0;
-    })
-  })
-  console.log('dataCopy: ', dataCopy);
+    });
+  });
+  console.log("dataCopy: ", dataCopy);
   currentPackage.value.packageDetail = dataCopy.packageDetail;
   currentPackage.value.packageName = dataCopy.packageName;
   currentPackage.value.id = dataCopy.id;
   currentPackage.value.price = dataCopy.price;
+  currentPackage.value.goodsConfigs = dataCopy.goodsConfigs;
 }
 // 新增查看详情方法
 const handleViewDetail = (record) => {
@@ -245,6 +248,10 @@ const handleAddOrder = (record) => {
   console.log("record: ", record);
   curRecord.value = record;
   showAddOrderModal.value = true;
+};
+const handleUpdateConfig = (params) => {
+  console.log("package-list params: ", params);
+  currentPackage.value.goodsConfigs = { ...currentPackage.value.goodsConfigs, ...params };
 };
 onMounted(() => {
   handleSearch();

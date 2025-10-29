@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { message } from "ant-design-vue";
-import { generateRandomString } from "@/utils";
+
 import {
   getProductDetail,
   updateEnabledOptions,
@@ -63,13 +63,14 @@ export const useEditOptions = () => {
 
   const handleEditOptions = async (record) => {
     const res = await getProductDetail({
-      token: "",
-      thirdId: generateRandomString(),
-      storeCode: "WHN833",
+      // token: "",
+      // thirdId: generateRandomString(),
+      // storeCode: "WHN833",
       linkId: record.linkId,
-      filter_mode: false,
+      // filter_mode: false,
     });
     if (res.code === 0) {
+      console.log("res: ", res.data);
       const isSpec = Boolean(res.data.root?.groupSpec?.length);
       const isDosing = Boolean(
         res.data.root?.tdProductDosingGroupInfos?.length
@@ -79,7 +80,6 @@ export const useEditOptions = () => {
 
       if (noData || isMenu) {
         message.error("该商品不支持自定义添加");
-
         return;
       }
       const res2 = await getEnabledOptions({

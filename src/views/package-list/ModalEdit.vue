@@ -46,9 +46,12 @@
         <FoodItem
           v-for="(item, index) in pd.productList"
           :key="index"
+          :idx="index"
           :data="item"
+          :goodsConfigs="props.currentPackage.goodsConfigs"
           type="edit"
           @delete="handleDeleteProduct(pd, index)"
+          @updateConfig="handleUpdateConfig"
         />
 
         <div
@@ -72,7 +75,7 @@
 <script setup>
 import { PlusCircleOutlined, CloseCircleOutlined } from "@ant-design/icons-vue";
 import ChooseProduct from "./ChooseProduct.vue";
-import { addPackage, updatePackage } from "@/api";
+import { addPackage, updatePackage, getProductDetail } from "@/api";
 import { message } from "ant-design-vue";
 import FoodItem from "./FoodItem.vue";
 
@@ -94,9 +97,8 @@ const props = defineProps({
     }),
   },
 });
-const emits = defineEmits(["confirm"]);
+const emits = defineEmits(["confirm", "updateConfig"]);
 const { packageDetail, packageName, price } = toRefs(props.currentPackage);
-
 const open = defineModel();
 
 const showChoose = ref(false);
@@ -121,7 +123,15 @@ const handleOk = async () => {
     message.warn("区域名未填写");
     return;
   }
-
+  const goodsConfigsMap = JSON.parse(
+    JSON.stringify(props.currentPackage.goodsConfigs)
+  );
+  // console.log(
+  //   Object.keys(goodsConfigsMap).map((key) => {
+  //     console.log("key: ", key);
+  //     // console.log(goodsConfigsMap[key]);
+  //   })
+  // );
   const params = {
     packageDetail: {
       group: packageDetail.value.group.map((item) => {
@@ -134,6 +144,8 @@ const handleOk = async () => {
               vip: it.vip,
               coupon: it.coupon,
               status: it.status,
+              img: it.img,
+              linkId: it.linkId,
             };
           }),
         };
@@ -141,6 +153,7 @@ const handleOk = async () => {
     },
     packageName: packageName.value,
     price: price.value,
+    goodsConfigs: goodsConfigsMap,
   };
   if (props.type === "edit") {
     params.packageId = props.currentPackage.id;
@@ -161,8 +174,10 @@ const handleOk = async () => {
 const handleDeleteProduct = (pd, productIndex) => {
   pd.productList.splice(productIndex, 1);
 };
-const onChoose = (data) => {
+
+const onChoose = async (data) => {
   console.log("data: ", data);
+
   showChoose.value = false;
   packageDetail.value.group[addIdx.value].productList =
     packageDetail.value.group[addIdx.value].productList || [];
@@ -178,5 +193,10 @@ const afterClose = () => {
 };
 const handleDeleteArea = (index) => {
   packageDetail.value.group.splice(index, 1);
+};
+
+const handleUpdateConfig = (params) => {
+  console.log("ModalEdit params: ", params);
+  emits("updateConfig", params);
 };
 </script>
