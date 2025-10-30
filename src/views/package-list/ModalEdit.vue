@@ -48,10 +48,10 @@
           :key="index"
           :idx="index"
           :data="item"
-          :goodsConfigs="props.currentPackage.goodsConfigs"
           type="edit"
           @delete="handleDeleteProduct(pd, index)"
           @updateConfig="handleUpdateConfig"
+          @editPackage="handleEditPackage"
         />
 
         <div
@@ -70,6 +70,11 @@
     </div>
   </a-modal>
   <ChooseProduct v-model="showChoose" @confirm="onChoose" />
+  <PackageEdit
+    v-model="packageEditOpen"
+    :linkId="packageEditData.linkId"
+    :packageEditData="packageEditData"
+  />
 </template>
 
 <script setup>
@@ -78,7 +83,17 @@ import ChooseProduct from "./ChooseProduct.vue";
 import { addPackage, updatePackage, getProductDetail } from "@/api";
 import { message } from "ant-design-vue";
 import FoodItem from "./FoodItem.vue";
+import PackageEdit from "./PackageEdit/index.vue";
+import { usePackageEditStore } from "@/stores/packageEdit";
+import { reactive } from "vue";
 
+const packageEditStore = usePackageEditStore();
+const packageEditOpen = ref(false);
+
+const packageEditData = reactive({
+  linkId: "",
+  s_linkId: "",
+});
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -124,14 +139,9 @@ const handleOk = async () => {
     return;
   }
   const goodsConfigsMap = JSON.parse(
-    JSON.stringify(props.currentPackage.goodsConfigs)
+    JSON.stringify(packageEditStore.goodsConfigs || {})
   );
-  // console.log(
-  //   Object.keys(goodsConfigsMap).map((key) => {
-  //     console.log("key: ", key);
-  //     // console.log(goodsConfigsMap[key]);
-  //   })
-  // );
+
   const params = {
     packageDetail: {
       group: packageDetail.value.group.map((item) => {
@@ -146,6 +156,7 @@ const handleOk = async () => {
               status: it.status,
               img: it.img,
               linkId: it.linkId,
+              s_linkId: it.s_linkId,
             };
           }),
         };
@@ -185,11 +196,13 @@ const onChoose = async (data) => {
     ...data,
     vip: data.vip || 0,
     coupon: "",
+    s_linkId: `${addIdx.value}_${data.linkId}`,
   });
 };
 const afterClose = () => {
   // packageDetail.value.group = [];
   // packageName.value = "";
+  packageEditStore.resetGoodsConfigs();
 };
 const handleDeleteArea = (index) => {
   packageDetail.value.group.splice(index, 1);
@@ -197,6 +210,14 @@ const handleDeleteArea = (index) => {
 
 const handleUpdateConfig = (params) => {
   console.log("ModalEdit params: ", params);
-  emits("updateConfig", params);
+  packageEditStore.pushGoodsConfig(params.key, params.value);
+};
+
+const handleEditPackage = ({ linkId, s_linkId }) => {
+  packageEditData.linkId = linkId;
+  packageEditData.s_linkId = s_linkId;
+  setTimeout(() => {
+    packageEditOpen.value = true;
+  }, 500);
 };
 </script>

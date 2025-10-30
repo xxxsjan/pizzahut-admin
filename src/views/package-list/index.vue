@@ -55,7 +55,6 @@
       @confirm="handleSearch"
       :current-package="currentPackage"
       :type="modalType"
-      @updateConfig="handleUpdateConfig"
     />
     <ModalDetail
       v-if="detailOpen"
@@ -78,12 +77,17 @@ import { SearchOutlined } from "@ant-design/icons-vue";
 import ModalEdit from "./ModalEdit.vue";
 import ModalDetail from "./ModalDetail.vue";
 import ModalAddOrder from "./ModalAddOrder.vue";
-import { h } from "vue";
+
+import { usePackageEditStore } from "@/stores/packageEdit";
+
+const packageEditStore = usePackageEditStore();
+
 const editOpen = ref(false);
 const modalType = ref("view");
 
 const detailOpen = ref(false);
 const showAddOrderModal = ref(false);
+
 const curRecord = ref({});
 const currentPackage = ref({
   packageName: "",
@@ -105,7 +109,8 @@ function setCurrentPackage(data) {
   currentPackage.value.packageName = dataCopy.packageName;
   currentPackage.value.id = dataCopy.id;
   currentPackage.value.price = dataCopy.price;
-  currentPackage.value.goodsConfigs = dataCopy.goodsConfigs;
+
+  packageEditStore.setGoodsConfigs(dataCopy.goodsConfigs);
 }
 // 新增查看详情方法
 const handleViewDetail = (record) => {
@@ -249,10 +254,7 @@ const handleAddOrder = (record) => {
   curRecord.value = record;
   showAddOrderModal.value = true;
 };
-const handleUpdateConfig = (params) => {
-  console.log("package-list params: ", params);
-  currentPackage.value.goodsConfigs = { ...currentPackage.value.goodsConfigs, ...params };
-};
+
 onMounted(() => {
   handleSearch();
 });

@@ -1,5 +1,5 @@
 import { getProductDetail } from "@/api";
-import { cleanGroupName } from "./utils/index.js";
+import { cleanGroupName } from "./index.js";
 
 const buildSpecOptions = (specs, enabledOptions, menus) => {
   const allLinkIds = specs[0].specDetails
@@ -83,4 +83,27 @@ export const getOptionsList = async (linkId) => {
     success: true,
     optionsList,
   };
+};
+
+export const getConfigByList = (list) => {
+  return list.reduce((pre, cur) => {
+    const groupName = (cur.groupName || "").replace(/\d+/g, "");
+    pre[groupName] = (cur.value || []).reduce((p, c) => {
+      const _data = cur.options.find((o) => o.label === c);
+      p[c] = { price: _data?.price || 0 };
+      return p;
+    }, {});
+    return pre;
+  }, {});
+};
+export const objRemoveEmpty = (configs) => {
+  const configMap = JSON.parse(JSON.stringify(configs));
+  // 移除空对象
+  Object.keys(configMap).forEach((groupName) => {
+    if (Object.keys(configMap[groupName]).length === 0) {
+      delete configMap[groupName];
+    }
+  });
+  console.log("configMap: ", configMap);
+  return configMap;
 };
