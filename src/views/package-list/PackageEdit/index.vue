@@ -175,18 +175,19 @@ const handleEdit = async (tc, idx) => {
 const handleEditOptionsSubmit = () => {
   console.log(curFood);
   console.log("packageEditData: ", props.packageEditData);
-
-  // packageEditStore
-  console.log(packageEditStore.goodsConfigs);
-
+  
   const s_linkId = curFood.value.s_linkId;
   const key = s_linkId;
   const configMap = objRemoveEmpty(getConfigByList(editOptionData.optionsList));
+  
+  const p_s_linkId = props.packageEditData.s_linkId;
+  console.log(packageEditStore.goodsConfigs);
+  console.log('p_s_linkId: ', p_s_linkId);
+  console.log("configMap: ", configMap);
 
-  // emits("updateConfig", {
-  //   key,
-  //   value: configMap,
-  // });
+  packageEditStore.pushGoodsConfig(key, configMap, p_s_linkId);
+
+  editOptionsModalVisible.value = false;
 };
 
 const handleOk = () => {

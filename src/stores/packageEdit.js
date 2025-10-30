@@ -15,8 +15,13 @@ export const usePackageEditStore = defineStore("packageEdit", {
     setGoodsConfigs(goodsConfigs) {
       this.goodsConfigs = goodsConfigs;
     },
-    pushGoodsConfig(key, value) {
-      this.goodsConfigs[key] = value;
+    pushGoodsConfig(key, value, s_linkId) {
+      if (s_linkId) {
+        this.goodsConfigs[s_linkId] = this.goodsConfigs[s_linkId] || {};
+        this.goodsConfigs[s_linkId][key] = value;
+      } else {
+        this.goodsConfigs[key] = value;
+      }
     },
     resetGoodsConfigs() {
       this.goodsConfigs = {};

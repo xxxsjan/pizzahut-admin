@@ -104,6 +104,5 @@ export const objRemoveEmpty = (configs) => {
       delete configMap[groupName];
     }
   });
-  console.log("configMap: ", configMap);
   return configMap;
 };
