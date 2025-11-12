@@ -6,6 +6,9 @@ export const usePackageEditStore = defineStore("packageEdit", {
       count: 0,
       goodsConfigs: {},
       packageData: {},
+      draftConfig: {},
+      openPackageList: [],
+      curOpenLinkId: "",
     };
   },
   actions: {
@@ -15,10 +18,10 @@ export const usePackageEditStore = defineStore("packageEdit", {
     setGoodsConfigs(goodsConfigs) {
       this.goodsConfigs = goodsConfigs;
     },
-    pushGoodsConfig(key, value, s_linkId) {
-      if (s_linkId) {
-        this.goodsConfigs[s_linkId] = this.goodsConfigs[s_linkId] || {};
-        this.goodsConfigs[s_linkId][key] = value;
+    pushGoodsConfig(key, value, p_s_linkId) {
+      if (p_s_linkId) {
+        this.goodsConfigs[p_s_linkId] = this.goodsConfigs[p_s_linkId] || {};
+        this.goodsConfigs[p_s_linkId][key] = value;
       } else {
         this.goodsConfigs[key] = value;
       }
@@ -28,6 +31,18 @@ export const usePackageEditStore = defineStore("packageEdit", {
     },
     setPackageData(packageData) {
       this.packageData = packageData;
+    },
+    setDraftConfig(draftConfig) {
+      this.draftConfig = draftConfig;
+    },
+    pushDraftConfig(key, value) {
+      this.draftConfig[key] = value;
+    },
+    mergeDraftConfig(p_s_linkId) {
+      this.goodsConfigs[p_s_linkId] = {
+        ...this.goodsConfigs[p_s_linkId],
+        ...this.draftConfig,
+      };
     },
   },
 });

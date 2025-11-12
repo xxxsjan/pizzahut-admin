@@ -158,7 +158,7 @@ import {
 } from "@/views/package-list/utils/getOptionsList.js";
 import { cleanGroupName } from "./utils/index.js";
 import { PlusCircleOutlined, CloseCircleOutlined } from "@ant-design/icons-vue";
-import ScaledNumberInput from "./ScaledNumberInput.vue";
+import ScaledNumberInput from "./components/ScaledNumberInput.vue";
 import { message } from "ant-design-vue";
 
 import { usePackageEditStore } from "@/stores/packageEdit";
@@ -178,7 +178,7 @@ const props = defineProps({
     default: 0,
   },
 });
-const emits = defineEmits(["updateConfig"]);
+const emits = defineEmits(["updateConfig", "editPackage"]);
 const { vip, coupon, status } = toRefs(props.data);
 const imgUrl = ref(props.data.img);
 const linkId = ref(props.data.linkId);
@@ -203,9 +203,10 @@ const handleEdit = async () => {
       // 解析goodsConfigs
       const s_linkId = props.data.s_linkId;
       const key = s_linkId || `${props.idx}_${linkId}`;
+      // 还原
       res.optionsList.forEach((item) => {
         const groupName = cleanGroupName(item.groupName);
-        const data = packageEditStore.goodsConfigs[key] || {};
+        const data = packageEditStore.goodsConfigs?.[key] || {};
         const data2 = data[groupName] || {};
         item.value = Object.keys(data2);
 

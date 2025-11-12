@@ -64,7 +64,7 @@ export const getOptionsList = async (linkId) => {
   }
   const enabled_options = res.data.enabled_options || {};
   let optionsList = [];
-
+  // 还原
   if (isSpec) {
     console.log("groupSpec: ", dataRoot.groupSpec);
     optionsList = buildSpecOptions(

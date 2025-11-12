@@ -73,7 +73,7 @@
   <PackageEdit
     v-model="packageEditOpen"
     :linkId="packageEditData.linkId"
-    :packageEditData="packageEditData"
+    :pData="packageEditData"
   />
 </template>
 
@@ -214,8 +214,11 @@ const handleUpdateConfig = (params) => {
 };
 
 const handleEditPackage = ({ linkId, s_linkId }) => {
+  console.log("handleEditPackage: 11",);
   packageEditData.linkId = linkId;
   packageEditData.s_linkId = s_linkId;
+  packageEditStore.openPackageList.push({ linkId, s_linkId });
+  packageEditStore.curOpenLinkId = linkId;
   setTimeout(() => {
     packageEditOpen.value = true;
   }, 500);

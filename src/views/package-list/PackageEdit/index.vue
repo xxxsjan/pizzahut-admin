@@ -89,6 +89,7 @@ import {
   getConfigByList,
   objRemoveEmpty,
 } from "@/views/package-list/utils/getOptionsList.js";
+import ScaledNumberInput from "../components/ScaledNumberInput.vue";
 
 import { usePackageEditStore } from "@/stores/packageEdit";
 import { cleanGroupName } from "../utils/index.js";
@@ -103,7 +104,7 @@ const props = defineProps({
     type: String,
     default: "",
   },
-  packageEditData: {
+  pData: {
     type: Object,
     default: () => {},
   },
@@ -151,13 +152,17 @@ const handleEdit = async (tc, idx) => {
 
     if (res) {
       // 解析goodsConfigs
-      const key = `${idx}_${linkId}`;
+      const s_linkId = `${idx}_${linkId}`;
+      const p_s_linkId = props.pData.s_linkId;
+
+      const remoteConfig =
+        packageEditStore.goodsConfigs[p_s_linkId]?.[s_linkId] || {};
+
       res.optionsList.forEach((item) => {
         const groupName = cleanGroupName(item.groupName);
-        const data = packageEditStore.goodsConfigs[key] || {};
-        const data2 = data[groupName] || {};
-        item.value = Object.keys(data2);
 
+        const data2 = remoteConfig[groupName] || {};
+        item.value = Object.keys(data2);
         item.options = item.options.map((m) => {
           return {
             ...m,
@@ -174,24 +179,28 @@ const handleEdit = async (tc, idx) => {
 
 const handleEditOptionsSubmit = () => {
   console.log(curFood);
-  console.log("packageEditData: ", props.packageEditData);
-  
+  console.log("pData: ", props.pData);
+
   const s_linkId = curFood.value.s_linkId;
   const key = s_linkId;
   const configMap = objRemoveEmpty(getConfigByList(editOptionData.optionsList));
-  
-  const p_s_linkId = props.packageEditData.s_linkId;
+
+  const p_s_linkId = props.pData.s_linkId;
   console.log(packageEditStore.goodsConfigs);
-  console.log('p_s_linkId: ', p_s_linkId);
+  console.log("p_s_linkId: ", p_s_linkId);
   console.log("configMap: ", configMap);
 
-  packageEditStore.pushGoodsConfig(key, configMap, p_s_linkId);
+  packageEditStore.pushDraftConfig(key, configMap, p_s_linkId);
 
   editOptionsModalVisible.value = false;
 };
 
 const handleOk = () => {
   console.log("handleOk");
+  const p_s_linkId = props.pData.s_linkId;
+
+  packageEditStore.mergeDraftConfig(p_s_linkId);
+  open.value = false;
 };
 const afterClose = () => {
   console.log("afterClose");
