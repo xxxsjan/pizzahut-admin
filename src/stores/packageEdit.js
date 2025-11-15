@@ -47,7 +47,9 @@ export const usePackageEditStore = defineStore("packageEdit", {
     },
     mergeDraftConfig(p_s_linkId, tdComboContentInfos) {
       console.log("tdComboContentInfos: ", tdComboContentInfos);
-      const draftConfigMap = JSON.parse(JSON.stringify(this.dialog.draftConfig));
+      const draftConfigMap = JSON.parse(
+        JSON.stringify(this.dialog.draftConfig)
+      );
       // 价格
       tdComboContentInfos.forEach((item, idx) => {
         const tdComboContentInfo = item.tdComboContentInfo || [];
@@ -67,17 +69,32 @@ export const usePackageEditStore = defineStore("packageEdit", {
       };
     },
 
-    openEditDialog(linkId) {
+    openEditDialog(linkId, s_linkId) {
       getProductDetail({
         linkId: linkId,
       }).then((res) => {
         if (!res.data?.root) {
-          console.log("res.dat: ", res);
           message.warn(res.data.message || "获取商品详情失败");
           return;
         }
+        const goodsConfigsMap = JSON.parse(
+          JSON.stringify(this.goodsConfigs[s_linkId] || {})
+        );
+        res.data.root.tdComboContentInfos =
+          res.data.root.tdComboContentInfos.map((item, idx) => {
+            return {
+              ...item,
+              tdComboContentInfo: item.tdComboContentInfo.map((m) => {
+                const key = `${idx}_${m.linkId}`;
+                return {
+                  ...m,
+                  price: goodsConfigsMap[key]?.price || m.price,
+                };
+              }),
+            };
+          });
+
         this.dialog.currentProduct = res || {};
-        // tdComboContentInfos.value = root.tdComboContentInfos || [];
         this.dialog.isOpen = true;
       });
     },

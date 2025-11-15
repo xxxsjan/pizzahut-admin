@@ -224,7 +224,7 @@ const handleEditPackage = ({ linkId, s_linkId }) => {
   packageEditStore.openPackageList.push({ linkId, s_linkId });
   packageEditStore.curOpenLinkId = linkId;
 
-  openEditDialog(linkId);
+  openEditDialog(linkId,s_linkId);
 
   // setTimeout(() => {
   //   packageEditOpen.value = true;
