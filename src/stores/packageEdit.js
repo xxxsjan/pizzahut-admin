@@ -8,13 +8,14 @@ export const usePackageEditStore = defineStore("packageEdit", {
       count: 0,
       goodsConfigs: {},
       packageData: {},
-      draftConfig: {},
+
       openPackageList: [],
       curOpenLinkId: "",
       goodsConfigsList: [],
       dialog: {
         isOpen: false,
         currentProduct: {},
+        draftConfig: {},
       },
     };
   },
@@ -42,11 +43,11 @@ export const usePackageEditStore = defineStore("packageEdit", {
     },
 
     pushDraftConfig(key, value) {
-      this.draftConfig[key] = value;
+      this.dialog.draftConfig[key] = value;
     },
     mergeDraftConfig(p_s_linkId, tdComboContentInfos) {
       console.log("tdComboContentInfos: ", tdComboContentInfos);
-      const draftConfigMap = JSON.parse(JSON.stringify(this.draftConfig));
+      const draftConfigMap = JSON.parse(JSON.stringify(this.dialog.draftConfig));
       // 价格
       tdComboContentInfos.forEach((item, idx) => {
         const tdComboContentInfo = item.tdComboContentInfo || [];
@@ -83,6 +84,7 @@ export const usePackageEditStore = defineStore("packageEdit", {
     closeEditDialog() {
       this.dialog.isOpen = false;
       this.dialog.currentProduct = {};
+      this.dialog.draftConfig = {};
     },
     updateProduct(updatedProduct) {
       const index = this.productList.findIndex(

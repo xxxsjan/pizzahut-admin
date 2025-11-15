@@ -101,10 +101,10 @@ const packageEditStore = usePackageEditStore();
 const open = defineModel();
 
 const props = defineProps({
-  linkId: {
-    type: String,
-    default: "",
-  },
+  // linkId: {
+  //   type: String,
+  //   default: "",
+  // },
   pData: {
     type: Object,
     default: () => {},
@@ -149,7 +149,7 @@ const handleEdit = async (tc, idx) => {
 
     if (res) {
       // 解析goodsConfigs
-      const draftConfig = packageEditStore.draftConfig[s_linkId] || {};
+      const draftConfig = packageEditStore.dialog.draftConfig[s_linkId] || {};
       const remoteConfig =
         packageEditStore.goodsConfigs[p_s_linkId]?.[s_linkId] || {};
 
@@ -199,10 +199,11 @@ const handleOk = () => {
     JSON.parse(JSON.stringify(tempProduct.value.data.root.tdComboContentInfos))
   );
 
-  // open.value = false;
+  open.value = false;
 };
 const afterClose = () => {
   console.log("afterClose");
+  packageEditStore.closeEditDialog();
 };
 onMounted(() => {});
 </script>

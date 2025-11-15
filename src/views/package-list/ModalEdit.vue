@@ -72,7 +72,6 @@
   <ChooseProduct v-model="showChoose" @confirm="onChoose" />
   <PackageEdit
     v-model="dialog.isOpen"
-    :linkId="packageEditData.linkId"
     :current-product="dialog.currentProduct"
     :pData="packageEditData"
   />
@@ -93,7 +92,7 @@ const packageEditStore = usePackageEditStore();
 const packageEditOpen = ref(false);
 const { dialog } = storeToRefs(packageEditStore);
 
-const { openEditDialog, closeEditDialog } = packageEditStore;
+const { openEditDialog  ,res } = packageEditStore;
 const packageEditData = reactive({
   linkId: "",
   s_linkId: "",
