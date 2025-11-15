@@ -191,7 +191,9 @@ const handleEdit = async () => {
   console.log("props: ", props);
   if (linkId) {
     const res = await getOptionsList(linkId);
+
     if (!res.success) {
+      // 是套餐
       // message.error(res.msg);
       const s_linkId = props.data.s_linkId;
       console.log("s_linkId: ", s_linkId);

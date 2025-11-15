@@ -10,7 +10,10 @@
     destroyOnClose
     :afterClose="afterClose"
   >
-    <div v-for="(item, idx) in tdComboContentInfos" :key="item.roundName">
+    <div
+      v-for="(item, idx) in tempProduct.data.root.tdComboContentInfos"
+      :key="item.roundName"
+    >
       <div
         class="text-lg font-bold text-gray-800 mb-2 pb-1 border-b border-gray-200"
       >
@@ -35,6 +38,7 @@
             >
               编辑
             </div>
+            <ScaledNumberInput v-model="tc.price" />
           </div>
         </div>
       </div>
@@ -83,7 +87,6 @@
 
 <script setup>
 import { onMounted, toRaw, watch } from "vue";
-import { getProductDetail } from "@/api";
 import {
   getOptionsList,
   getConfigByList,
@@ -96,9 +99,7 @@ import { cleanGroupName } from "../utils/index.js";
 
 const packageEditStore = usePackageEditStore();
 const open = defineModel();
-const tdComboContentInfos = ref([]);
 
-const resData = ref({});
 const props = defineProps({
   linkId: {
     type: String,
@@ -108,31 +109,25 @@ const props = defineProps({
     type: Object,
     default: () => {},
   },
+  currentProduct: { type: Object, default: null },
 });
 const editOptionsModalVisible = ref(false);
 const editOptionData = reactive({
   optionsList: [],
 });
+const tempProduct = ref({});
+
 watch(
-  () => props.linkId,
+  () => props.currentProduct,
   (newVal) => {
     if (newVal) {
-      getProductDetail({
-        linkId: newVal,
-      }).then((res) => {
-        console.log("res: ", res);
-        resData.value = res;
-
-        const root = res.data.root || {};
-
-        tdComboContentInfos.value = root.tdComboContentInfos || [];
-      });
+      tempProduct.value = JSON.parse(JSON.stringify(newVal));
     }
-  }
+  },
+  { immediate: true }
 );
-
 const getImgUrl = (linkId) => {
-  const res = resData.value;
+  const res = tempProduct.value;
   const data = res.data.productGroup[linkId] || res.data.menus[linkId];
   return data?.imgUrl || "";
 };
@@ -144,24 +139,24 @@ const handleEdit = async (tc, idx) => {
     s_linkId: `${idx}_${linkId}`,
   };
   if (linkId) {
+    const s_linkId = `${idx}_${linkId}`;
+    const p_s_linkId = props.pData.s_linkId;
+
     const res = await getOptionsList(linkId);
     if (!res.success) {
-      // emits("editPackage", linkId);
       return;
     }
 
     if (res) {
       // 解析goodsConfigs
-      const s_linkId = `${idx}_${linkId}`;
-      const p_s_linkId = props.pData.s_linkId;
-
+      const draftConfig = packageEditStore.draftConfig[s_linkId] || {};
       const remoteConfig =
         packageEditStore.goodsConfigs[p_s_linkId]?.[s_linkId] || {};
 
       res.optionsList.forEach((item) => {
         const groupName = cleanGroupName(item.groupName);
 
-        const data2 = remoteConfig[groupName] || {};
+        const data2 = draftConfig[groupName] || remoteConfig[groupName] || {};
         item.value = Object.keys(data2);
         item.options = item.options.map((m) => {
           return {
@@ -199,8 +194,12 @@ const handleOk = () => {
   console.log("handleOk");
   const p_s_linkId = props.pData.s_linkId;
 
-  packageEditStore.mergeDraftConfig(p_s_linkId);
-  open.value = false;
+  packageEditStore.mergeDraftConfig(
+    p_s_linkId,
+    JSON.parse(JSON.stringify(tempProduct.value.data.root.tdComboContentInfos))
+  );
+
+  // open.value = false;
 };
 const afterClose = () => {
   console.log("afterClose");

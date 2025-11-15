@@ -110,7 +110,7 @@ function setCurrentPackage(data) {
   currentPackage.value.id = dataCopy.id;
   currentPackage.value.price = dataCopy.price;
 
-  packageEditStore.setGoodsConfigs(dataCopy.goodsConfigs);
+  packageEditStore.setGoodsConfigs(dataCopy.goodsConfigs || {});
 }
 // 新增查看详情方法
 const handleViewDetail = (record) => {

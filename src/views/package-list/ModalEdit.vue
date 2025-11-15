@@ -71,8 +71,9 @@
   </a-modal>
   <ChooseProduct v-model="showChoose" @confirm="onChoose" />
   <PackageEdit
-    v-model="packageEditOpen"
+    v-model="dialog.isOpen"
     :linkId="packageEditData.linkId"
+    :current-product="dialog.currentProduct"
     :pData="packageEditData"
   />
 </template>
@@ -86,10 +87,13 @@ import FoodItem from "./FoodItem.vue";
 import PackageEdit from "./PackageEdit/index.vue";
 import { usePackageEditStore } from "@/stores/packageEdit";
 import { reactive } from "vue";
+import { storeToRefs } from "pinia";
 
 const packageEditStore = usePackageEditStore();
 const packageEditOpen = ref(false);
+const { dialog } = storeToRefs(packageEditStore);
 
+const { openEditDialog, closeEditDialog } = packageEditStore;
 const packageEditData = reactive({
   linkId: "",
   s_linkId: "",
@@ -214,13 +218,17 @@ const handleUpdateConfig = (params) => {
 };
 
 const handleEditPackage = ({ linkId, s_linkId }) => {
-  console.log("handleEditPackage: 11",);
+  console.log("handleEditPackage: 11");
   packageEditData.linkId = linkId;
   packageEditData.s_linkId = s_linkId;
+
   packageEditStore.openPackageList.push({ linkId, s_linkId });
   packageEditStore.curOpenLinkId = linkId;
-  setTimeout(() => {
-    packageEditOpen.value = true;
-  }, 500);
+
+  openEditDialog(linkId);
+
+  // setTimeout(() => {
+  //   packageEditOpen.value = true;
+  // }, 500);
 };
 </script>
