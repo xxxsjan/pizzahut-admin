@@ -55,7 +55,7 @@
         产品名： {{ data.name }}
       </div>
       <div class="flex gap-2 items-center w-full px-2 mb-2">
-        <div class="font-medium">优惠方式：</div>
+        <div class="font-medium w-20">优惠方式：</div>
         <a-select
           v-model:value="vip"
           show-search
@@ -81,12 +81,12 @@
           placeholder="输入优惠券名字"
         ></a-input>
       </div>
-      <div>
-        价格：
+      <div class="flex gap-2 items-center w-full px-2 mb-2">
+        <div class="font-medium w-20">差价：</div>
         <ScaledNumberInput v-model="price" />
       </div>
       <div class="flex gap-2 items-center w-full px-2 mb-2">
-        <div class="font-medium">白名单：</div>
+        <div class="font-medium w-20">白名单：</div>
         <a-select
           v-model:value="status"
           show-search

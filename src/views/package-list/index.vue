@@ -192,13 +192,11 @@ const handleSearch = async () => {
     });
     dataSource.value = res.data.map((m) => {
       const packageDetail = JSON.parse(m.packageDetail || "{}");
-      console.log('packageDetail: ', packageDetail);
-      packageDetail.group.forEach(item=>{
-        item.productList.forEach(product=>{
+      packageDetail.group.forEach((item) => {
+        item.productList.forEach((product) => {
           product.price = product.price || 0;
-        })
-      })
-      console.log("packageDetail: ", packageDetail);
+        });
+      });
 
       return {
         ...m,

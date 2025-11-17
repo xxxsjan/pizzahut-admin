@@ -160,6 +160,7 @@ const handleOk = async () => {
               img: it.img,
               linkId: it.linkId,
               s_linkId: it.s_linkId,
+              price: it.price || 0,
             };
           }),
         };
