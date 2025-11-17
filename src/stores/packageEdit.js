@@ -62,7 +62,6 @@ export const usePackageEditStore = defineStore("packageEdit", {
           }
         });
       });
-      console.log("draftConfigMap: ", draftConfigMap);
       this.goodsConfigs[p_s_linkId] = {
         ...this.goodsConfigs[p_s_linkId],
         ...draftConfigMap,

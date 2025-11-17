@@ -69,7 +69,7 @@
       <PlusCircleOutlined style="color: #4b5563" />
     </div>
   </a-modal>
-  <ChooseProduct v-model="showChoose" @confirm="onChoose" />
+  <ChooseProduct v-model="showChoose" @confirm="onConfirmChoose" />
   <PackageEdit
     v-model="dialog.isOpen"
     :current-product="dialog.currentProduct"
@@ -89,10 +89,10 @@ import { reactive } from "vue";
 import { storeToRefs } from "pinia";
 
 const packageEditStore = usePackageEditStore();
-const packageEditOpen = ref(false);
+
 const { dialog } = storeToRefs(packageEditStore);
 
-const { openEditDialog  ,res } = packageEditStore;
+const { openEditDialog, res } = packageEditStore;
 const packageEditData = reactive({
   linkId: "",
   s_linkId: "",
@@ -189,8 +189,8 @@ const handleDeleteProduct = (pd, productIndex) => {
   pd.productList.splice(productIndex, 1);
 };
 
-const onChoose = async (data) => {
-  console.log("data: ", data);
+const onConfirmChoose = async (data) => {
+  console.log("onConfirmChoose: ", data);
 
   showChoose.value = false;
   packageDetail.value.group[addIdx.value].productList =
@@ -224,7 +224,7 @@ const handleEditPackage = ({ linkId, s_linkId }) => {
   packageEditStore.openPackageList.push({ linkId, s_linkId });
   packageEditStore.curOpenLinkId = linkId;
 
-  openEditDialog(linkId,s_linkId);
+  openEditDialog(linkId, s_linkId);
 
   // setTimeout(() => {
   //   packageEditOpen.value = true;

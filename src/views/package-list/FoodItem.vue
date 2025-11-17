@@ -81,6 +81,10 @@
           placeholder="输入优惠券名字"
         ></a-input>
       </div>
+      <div>
+        价格：
+        <ScaledNumberInput v-model="price" />
+      </div>
       <div class="flex gap-2 items-center w-full px-2 mb-2">
         <div class="font-medium">白名单：</div>
         <a-select
@@ -179,7 +183,7 @@ const props = defineProps({
   },
 });
 const emits = defineEmits(["updateConfig", "editPackage"]);
-const { vip, coupon, status } = toRefs(props.data);
+const { vip, coupon, status, price } = toRefs(props.data);
 const imgUrl = ref(props.data.img);
 const linkId = ref(props.data.linkId);
 const editOptionsModalVisible = ref(false);
